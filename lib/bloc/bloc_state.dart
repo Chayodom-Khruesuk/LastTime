@@ -1,5 +1,20 @@
-sealed class BlocState {}
+import 'package:flutter_lasttime/model/item_action.dart';
 
-class LoadingState extends BlocState {}
+sealed class BlocState {
+  final List<ItemAction> item;
+  BlocState({required this.item});
+}
 
-class SearchState extends BlocState {}
+const List<ItemAction> empty = [];
+
+class LoadingState extends BlocState {
+  LoadingState() : super(item: empty);
+}
+
+class SearchState extends BlocState {
+  SearchState({required super.item});
+}
+
+class ReadyState extends BlocState {
+  ReadyState({required super.item});
+}
