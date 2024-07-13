@@ -12,3 +12,5 @@ final class SearchEvent extends BlocEvent {
   final String key;
   SearchEvent(this.key);
 }
+
+final class SearchClearEvent extends BlocEvent {}
