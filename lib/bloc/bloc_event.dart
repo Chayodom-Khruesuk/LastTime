@@ -15,8 +15,9 @@ class RemoveEvent extends BlocEvent {
 
 class RemoveButtonEvent extends BlocEvent {}
 
-class AddEvent extends BlocEvent {
+class AddEventAction extends BlocEvent {
   final String name;
-  final int cycleDateTime;
-  AddEvent(this.name, this.cycleDateTime);
+  final int dateTime;
+
+  AddEventAction({required this.name, required this.dateTime});
 }

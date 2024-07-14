@@ -8,7 +8,7 @@ class LastTimeBloc extends Bloc<BlocEvent, BlocState> {
     on<LoadEvent>(_onLoaded);
     on<RemoveEvent>(_onRemove);
     on<RemoveButtonEvent>(_onRemoveButton);
-    on<AddEvent>(_onAdd);
+    on<AddEventAction>(_onAdd);
   }
 
   void _onLoaded(LoadEvent event, Emitter<BlocState> emit) async {
@@ -33,9 +33,9 @@ class LastTimeBloc extends Bloc<BlocEvent, BlocState> {
     }
   }
 
-  void _onAdd(AddEvent event, Emitter<BlocState> emit) async {
+  void _onAdd(AddEventAction event, Emitter<BlocState> emit) async {
     if (state is ReadyState) {
-      await repo.add(name: event.name, cycleDateTime: event.cycleDateTime);
+      await repo.add(name: event.name, cycleDateTime: event.dateTime);
     }
   }
 }
