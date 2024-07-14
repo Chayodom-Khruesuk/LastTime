@@ -11,10 +11,10 @@ class LoadingState extends BlocState {
   LoadingState() : super(item: empty);
 }
 
-class SearchState extends BlocState {
-  SearchState({required super.item});
-}
-
 class ReadyState extends BlocState {
   ReadyState({required super.item});
+}
+
+class RemoveState extends BlocState {
+  RemoveState({required super.item});
 }

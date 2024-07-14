@@ -2,15 +2,21 @@ sealed class BlocEvent {}
 
 final class LoadEvent extends BlocEvent {}
 
-final class MarkEvent extends BlocEvent {
-  final int id;
-  final DateTime markdatetime;
-  MarkEvent(this.id, this.markdatetime);
-}
-
 final class SearchEvent extends BlocEvent {
   final String key;
   SearchEvent(this.key);
 }
 
-final class SearchClearEvent extends BlocEvent {}
+class RemoveEvent extends BlocEvent {
+  final int id;
+  RemoveEvent(this.id);
+  List<Object?> get props => [id];
+}
+
+class RemoveButtonEvent extends BlocEvent {}
+
+class AddEvent extends BlocEvent {
+  final String name;
+  final int cycleDateTime;
+  AddEvent(this.name, this.cycleDateTime);
+}
