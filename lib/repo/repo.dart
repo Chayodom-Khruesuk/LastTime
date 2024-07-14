@@ -5,5 +5,5 @@ abstract class Repo {
   Future<List<ItemAction>> loadWithDelay();
   Future<void> remove({required int id});
   Future<void> add({required String name, required int cycleDateTime});
-  Future<void> update({required int id, required DateTime cycleDateTime});
+  Future<void> update({required int id, required DateTime? action});
 }

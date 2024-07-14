@@ -30,6 +30,9 @@ class SearchClearEvent extends BlocEvent {}
 
 class UpdateTime extends BlocEvent {
   final int id;
-  final DateTime cycleDateTime;
-  UpdateTime({required this.id, required this.cycleDateTime});
+  final DateTime action;
+  UpdateTime({
+    required this.id,
+    required this.action,
+  });
 }

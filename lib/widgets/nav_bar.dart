@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_lasttime/widgets/screens/complete_scren.dart';
+import 'package:flutter_lasttime/widgets/screens/complete_scren.dart';
 import 'package:flutter_lasttime/widgets/screens/todo_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -15,7 +15,7 @@ class NavBarState extends State<NavBar> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     const ToDoScreen(),
-    //const CompleteScreen(),
+    const CompleteScreen(),
   ];
 
   @override
@@ -59,10 +59,10 @@ class NavBarState extends State<NavBar> {
                   iconColor: Colors.white,
                   text: 'สิ่งที่ต้องทำ',
                 ),
-                /*GButton(
-                    icon: Icons.home,
+                GButton(
+                    icon: Icons.assignment_turned_in,
                     iconColor: Colors.white,
-                    text: 'เสร็จสมบูรณ์'),*/
+                    text: 'เสร็จสมบูรณ์'),
               ],
               selectedIndex: _selectedIndex,
               onTabChange: (index) {

@@ -15,7 +15,7 @@ class AddEvent extends StatelessWidget {
     final TextEditingController dateTimeController = TextEditingController();
 
     return FloatingActionButton(
-      backgroundColor: const Color.fromARGB(175, 82, 169, 240),
+      backgroundColor: Colors.yellow,
       onPressed: () async {
         await showDialog(
           context: context,

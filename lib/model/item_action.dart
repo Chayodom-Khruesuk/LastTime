@@ -13,5 +13,5 @@ class ItemAction extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, action, action];
+  List<Object?> get props => [id, action];
 }

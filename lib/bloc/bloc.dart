@@ -58,7 +58,10 @@ class LastTimeBloc extends Bloc<BlocEvent, BlocState> {
 
   void _onUpdateTime(UpdateTime event, Emitter<BlocState> emit) async {
     if (state is ReadyState || state is SearchState) {
-      await repo.update(id: event.id, cycleDateTime: event.cycleDateTime);
+      await repo.update(
+        id: event.id,
+        action: event.action,
+      );
       emit(LoadingState());
       add(LoadEvent());
     }

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_lasttime/bloc/bloc.dart';
 import 'package:flutter_lasttime/bloc/bloc_event.dart';
 import 'package:flutter_lasttime/repo/mock_repo.dart';
-import 'package:flutter_lasttime/widgets/home_page.dart';
+import 'package:flutter_lasttime/widgets/screens/home_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

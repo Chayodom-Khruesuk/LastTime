@@ -3,22 +3,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_lasttime/bloc/bloc.dart';
 import 'package:flutter_lasttime/bloc/bloc_event.dart';
 import 'package:flutter_lasttime/bloc/bloc_state.dart';
+import 'package:flutter_lasttime/widgets/action_check_list.dart';
 import 'package:intl/intl.dart';
 
 Expanded listPage() {
   return Expanded(
     child: BlocBuilder<LastTimeBloc, BlocState>(
       builder: (context, state) {
-        final item = state.item;
-        return item.isEmpty
+        final items = state.item.where((item) => item.action == null).toList();
+        return items.isEmpty
             ? const Center(
                 child: Text(
-                  'No item found',
+                  'Item not found',
                   style: TextStyle(color: Colors.white),
                 ),
               )
             : ListView.builder(
-                itemCount: item.length,
+                itemCount: items.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
@@ -33,76 +34,17 @@ Expanded listPage() {
                       child: BlocBuilder<LastTimeBloc, BlocState>(
                           builder: (context, state) {
                         if (state is ReadyState || state is SearchState) {
-                          if (item[index].action == null) {
+                          if (items[index].action == null) {
                             return ListTile(
-                              leading: IconButton(
-                                icon: const Icon(
-                                  Icons.check_box,
-                                  color: Colors.yellow,
-                                ),
-                                iconSize: 28,
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text(
-                                            'ยืนยัน',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          content: const Text(
-                                            'คุณต้องการยกเลิกงานนี้หรือไม่',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              child: const Text('ยกเลิก',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold)),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                            TextButton(
-                                              style: TextButton.styleFrom(
-                                                backgroundColor: Colors.green,
-                                              ),
-                                              onPressed: () {
-                                                context
-                                                    .read<LastTimeBloc>()
-                                                    .add(UpdateTime(
-                                                        id: item[index].id,
-                                                        cycleDateTime:
-                                                            DateTime.now()));
-                                                /*Navigator.of(context).pop();
-                                                context
-                                                    .read<LastTimeBloc>()
-                                                    .add(RemoveEvent(
-                                                        item[index].id));*/
-                                              },
-                                              child: const Text('ตกลง',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black)),
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                },
-                              ),
+                              leading: actionCheckList(context, items, index),
                               title: Text(
-                                item[index].name,
+                                items[index].name,
                                 style: const TextStyle(
                                   color: Colors.white,
                                 ),
                               ),
                               trailing: Text(
-                                'เวลาคงเหลือ ${item[index].cycleDateTime} วัน',
+                                'เวลาคงเหลือ ${items[index].cycleDateTime} วัน',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -113,14 +55,14 @@ Expanded listPage() {
                             return ListTile(
                               // index name
                               title: Text(
-                                item[index].name,
+                                items[index].name,
                                 style: const TextStyle(
                                   color: Colors.white,
                                 ),
                               ),
                               // DateTime
                               trailing: Text(
-                                'บันทึก: ${DateFormat('yyyy-MM-dd-kk:mm').format(item[index].action!)} นาที',
+                                'บันทึก: ${DateFormat('dd/MM/yyyy เวลา hh:mm').format(items[index].action!)} นาที',
                                 style: const TextStyle(
                                   color: Colors.white,
                                 ),
@@ -128,7 +70,7 @@ Expanded listPage() {
                               // delete icon
                               onTap: () {
                                 context.read<LastTimeBloc>().add(
-                                      RemoveEvent(item[index].id),
+                                      RemoveEvent(items[index].id),
                                     );
                               },
                             );
@@ -136,7 +78,7 @@ Expanded listPage() {
                         } else if (state is RemoveState) {
                           return ListTile(
                               title: Text(
-                                item[index].name,
+                                items[index].name,
                                 style: const TextStyle(
                                   color: Colors.white,
                                 ),
@@ -148,7 +90,7 @@ Expanded listPage() {
                               onTap: () {
                                 context
                                     .read<LastTimeBloc>()
-                                    .add(RemoveEvent(item[index].id));
+                                    .add(RemoveEvent(items[index].id));
                               });
                         } else {
                           return const Material();

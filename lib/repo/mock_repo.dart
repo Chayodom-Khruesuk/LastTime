@@ -35,11 +35,10 @@ class MockRepo extends Repo {
   }
 
   @override
-  Future<void> update(
-      {required int id, required DateTime cycleDateTime}) async {
+  Future<void> update({required int id, required DateTime? action}) async {
     await Future.delayed(const Duration());
     final index = item.indexWhere((item) => item.id == id);
-    item[index] = ItemAction(
-        id, item[index].name, item[index].cycleDateTime, cycleDateTime);
+    item[index] =
+        ItemAction(id, item[index].name, item[index].cycleDateTime, action);
   }
 }
