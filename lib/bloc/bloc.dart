@@ -9,6 +9,8 @@ class LastTimeBloc extends Bloc<BlocEvent, BlocState> {
     on<RemoveEvent>(_onRemove);
     on<RemoveButtonEvent>(_onRemoveButton);
     on<AddEventAction>(_onAdd);
+    on<SearchEventAction>(_onSearch);
+    on<SearchClearEvent>(_onSearchClear);
   }
 
   void _onLoaded(LoadEvent event, Emitter<BlocState> emit) async {
@@ -37,5 +39,19 @@ class LastTimeBloc extends Bloc<BlocEvent, BlocState> {
     if (state is ReadyState) {
       await repo.add(name: event.name, cycleDateTime: event.dateTime);
     }
+  }
+
+  void _onSearch(SearchEventAction event, Emitter<BlocState> emit) async {
+    final items = await repo.load();
+    final searchResults = items
+        .where((item) =>
+            item.name.toLowerCase().contains(event.query.toLowerCase()))
+        .toList();
+    emit(SearchState(item: searchResults, query: event.query));
+  }
+
+  void _onSearchClear(SearchClearEvent event, Emitter<BlocState> emit) async {
+    final item = await repo.load();
+    emit(ReadyState(item: item));
   }
 }

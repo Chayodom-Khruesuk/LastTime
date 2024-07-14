@@ -29,6 +29,7 @@ class NavBarState extends State<NavBar> {
           'Demo',
           style: TextStyle(color: Colors.white),
         ),
+        centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 26, 25, 25),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),

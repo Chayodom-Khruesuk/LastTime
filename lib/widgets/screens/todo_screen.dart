@@ -10,100 +10,132 @@ class ToDoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final item = context.select((LastTimeBloc bloc) => bloc.state.item);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          Center(
-            child: item.isEmpty
-                ? const SizedBox(
-                    height: 200,
-                    width: double.infinity,
-                    child: Center(
-                      child: Text(
-                        'Data Not Found',
-                        textAlign: TextAlign.center,
-                      ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+                child: TextField(
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: 'Search....',
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    prefixIcon: const Icon(
+                      Icons.search,
+                      color: Colors.grey,
                     ),
-                  )
-                : ListView.builder(
-                    itemCount: item.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8,
-                          horizontal: 20,
-                        ),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 77, 76, 76),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: BlocBuilder<LastTimeBloc, BlocState>(
-                              builder: (context, state) {
-                            if (state is ReadyState) {
-                              if (item[index].action == null) {
-                                return ListTile(
-                                  title: Text(
-                                    item[index].name,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  trailing: const Text(
-                                    '',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                return ListTile(
-                                  title: Text(
-                                    item[index].name,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    item[index].action.toString(),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    context.read<LastTimeBloc>().add(
-                                          RemoveEvent(item[index].id),
-                                        );
-                                  },
-                                );
-                              }
-                            } else if (state is RemoveState) {
-                              return ListTile(
-                                  title: Text(
-                                    item[index].name,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  trailing: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                  ),
-                                  onTap: () {
-                                    context
-                                        .read<LastTimeBloc>()
-                                        .add(RemoveEvent(item[index].id));
-                                  });
-                            } else {
-                              return const Material();
-                            }
-                          }),
-                        ),
-                      );
-                    },
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.grey),
+                    ),
                   ),
+                  onChanged: (query) {
+                    if (query.isEmpty) {
+                      context.read<LastTimeBloc>().add(SearchClearEvent());
+                    } else {
+                      context
+                          .read<LastTimeBloc>()
+                          .add(SearchEventAction(query));
+                    }
+                  },
+                ),
+              ),
+              Expanded(
+                child: BlocBuilder<LastTimeBloc, BlocState>(
+                  builder: (context, state) {
+                    final item = state.item;
+                    return item.isEmpty
+                        ? const Center(
+                            child: Text(
+                              'No item found',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
+                        : ListView.builder(
+                            itemCount: item.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 8,
+                                  horizontal: 20,
+                                ),
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color:
+                                        const Color.fromARGB(255, 77, 76, 76),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: BlocBuilder<LastTimeBloc, BlocState>(
+                                      builder: (context, state) {
+                                    if (state is ReadyState ||
+                                        state is SearchState) {
+                                      if (item[index].action == null) {
+                                        return ListTile(
+                                          title: Text(
+                                            item[index].name,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          trailing: const Text(
+                                            '',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        return ListTile(
+                                          title: Text(
+                                            item[index].name,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          trailing: Text(
+                                            item[index].action.toString(),
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            context.read<LastTimeBloc>().add(
+                                                  RemoveEvent(item[index].id),
+                                                );
+                                          },
+                                        );
+                                      }
+                                    } else if (state is RemoveState) {
+                                      return ListTile(
+                                          title: Text(
+                                            item[index].name,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          trailing: const Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                          onTap: () {
+                                            context.read<LastTimeBloc>().add(
+                                                RemoveEvent(item[index].id));
+                                          });
+                                    } else {
+                                      return const Material();
+                                    }
+                                  }),
+                                ),
+                              );
+                            },
+                          );
+                  },
+                ),
+              ),
+            ],
           ),
           const Positioned(
             bottom: 16,
@@ -127,17 +159,18 @@ class RemoveBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      backgroundColor: Colors.red, // Example color
-      onPressed: () {
-        context.read<LastTimeBloc>().add(
-              RemoveButtonEvent(),
-            );
+    return BlocBuilder<LastTimeBloc, BlocState>(
+      builder: (context, state) {
+        return FloatingActionButton(
+            backgroundColor: Colors.red,
+            onPressed: () {
+              context.read<LastTimeBloc>().add(RemoveButtonEvent());
+            },
+            child: const Icon(
+              Icons.delete,
+              color: Colors.white,
+            ));
       },
-      child: const Icon(
-        Icons.delete,
-        color: Colors.white,
-      ), // Replace with your desired icon
     );
   }
 }

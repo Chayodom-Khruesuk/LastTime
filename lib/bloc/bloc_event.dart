@@ -21,3 +21,12 @@ class AddEventAction extends BlocEvent {
 
   AddEventAction({required this.name, required this.dateTime});
 }
+
+class SearchEventAction extends BlocEvent {
+  final String query;
+  SearchEventAction(this.query);
+
+  Pattern? get pattern => null;
+}
+
+class SearchClearEvent extends BlocEvent {}

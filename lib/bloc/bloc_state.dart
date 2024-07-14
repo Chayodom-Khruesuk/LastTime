@@ -16,5 +16,11 @@ class ReadyState extends BlocState {
 }
 
 class RemoveState extends BlocState {
-  RemoveState({required super.item});
+  final bool deleteMode;
+  RemoveState({required super.item, this.deleteMode = false});
+}
+
+class SearchState extends BlocState {
+  final String query;
+  SearchState({required this.query, required super.item});
 }
