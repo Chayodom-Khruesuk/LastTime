@@ -8,6 +8,10 @@ class ItemAction extends Equatable {
 
   const ItemAction(this.id, this.name, this.cycleDateTime, this.action);
 
+  ItemAction copyWith({DateTime? action}) {
+    return ItemAction(id, name, cycleDateTime, action ?? this.action);
+  }
+
   @override
-  List<Object?> get props => [id, action];
+  List<Object?> get props => [id, action, action];
 }

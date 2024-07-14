@@ -25,11 +25,12 @@ class ToDoScreen extends StatelessWidget {
                     hintStyle: const TextStyle(color: Colors.grey),
                     prefixIcon: const Icon(
                       Icons.search,
-                      color: Colors.grey,
+                      color: Color.fromARGB(255, 110, 128, 14),
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.grey),
+                      borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 206, 193, 8)),
                     ),
                   ),
                   onChanged: (query) {

@@ -18,7 +18,8 @@ class RemoveBtn extends StatelessWidget {
             },
             child: const Icon(
               Icons.delete,
-              color: Colors.white,
+              color: Colors.black,
+              size: 32,
             ));
       },
     );

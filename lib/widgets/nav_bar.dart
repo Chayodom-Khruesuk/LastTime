@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lasttime/widgets/screens/complete_screen.dart';
-import 'package:flutter_lasttime/widgets/screens/overlate_screen.dart';
+//import 'package:flutter_lasttime/widgets/screens/complete_scren.dart';
 import 'package:flutter_lasttime/widgets/screens/todo_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -16,8 +15,7 @@ class NavBarState extends State<NavBar> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     const ToDoScreen(),
-    const OverlateScreen(),
-    const Completedscreen(),
+    //const CompleteScreen(),
   ];
 
   @override
@@ -26,11 +24,12 @@ class NavBarState extends State<NavBar> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text(
-          'Demo',
-          style: TextStyle(color: Colors.white),
+          'TODO App',
+          style: TextStyle(
+              color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 26, 25, 25),
+        backgroundColor: const Color.fromARGB(255, 197, 178, 8),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: Container(
@@ -45,28 +44,25 @@ class NavBarState extends State<NavBar> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
             child: GNav(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              iconSize: 30,
-              gap: 20,
+              iconSize: 35,
+              gap: 30,
               curve: Curves.ease,
-              rippleColor: const Color.fromARGB(176, 52, 150, 231),
-              tabBackgroundColor: const Color.fromARGB(176, 52, 150, 231),
+              rippleColor: const Color.fromARGB(172, 241, 132, 6),
+              tabBackgroundColor: const Color.fromARGB(174, 0, 0, 0),
               activeColor: Colors.orange,
               tabs: const [
                 GButton(
+                  icon: Icons.list,
+                  iconColor: Colors.white,
+                  text: 'สิ่งที่ต้องทำ',
+                ),
+                /*GButton(
                     icon: Icons.home,
                     iconColor: Colors.white,
-                    text: 'สิ่งที่ต้องทำ'),
-                GButton(
-                    icon: Icons.home,
-                    iconColor: Colors.white,
-                    text: 'เลยกำหนดเวลา'),
-                GButton(
-                    icon: Icons.home,
-                    iconColor: Colors.white,
-                    text: 'เสร็จสมบูรณ์'),
+                    text: 'เสร็จสมบูรณ์'),*/
               ],
               selectedIndex: _selectedIndex,
               onTabChange: (index) {

@@ -10,7 +10,6 @@ final class SearchEvent extends BlocEvent {
 class RemoveEvent extends BlocEvent {
   final int id;
   RemoveEvent(this.id);
-  List<Object?> get props => [id];
 }
 
 class RemoveButtonEvent extends BlocEvent {}
@@ -25,8 +24,12 @@ class AddEventAction extends BlocEvent {
 class SearchEventAction extends BlocEvent {
   final String query;
   SearchEventAction(this.query);
-
-  Pattern? get pattern => null;
 }
 
 class SearchClearEvent extends BlocEvent {}
+
+class UpdateTime extends BlocEvent {
+  final int id;
+  final DateTime cycleDateTime;
+  UpdateTime({required this.id, required this.cycleDateTime});
+}
