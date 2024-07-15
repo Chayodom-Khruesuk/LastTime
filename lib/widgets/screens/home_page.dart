@@ -10,9 +10,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LastTimeBloc, BlocState>(builder: (context, state) {
       return state is LoadingState
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? const Center(child: CircularProgressIndicator())
           : const NavBar();
     });
   }

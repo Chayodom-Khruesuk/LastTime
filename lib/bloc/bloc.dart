@@ -6,6 +6,7 @@ class LastTimeBloc extends Bloc<BlocEvent, BlocState> {
   final Repo repo;
   LastTimeBloc(this.repo) : super(LoadingState()) {
     on<LoadEvent>(_onLoaded);
+    on<LoadAnimationEvent>(_onLoadedAnimation);
     on<RemoveEvent>(_onRemove);
     on<RemoveButtonEvent>(_onRemoveButton);
     on<AddEventAction>(_onAdd);
@@ -16,6 +17,13 @@ class LastTimeBloc extends Bloc<BlocEvent, BlocState> {
 
   void _onLoaded(LoadEvent event, Emitter<BlocState> emit) async {
     final item = await repo.loadWithDelay();
+    item.sort((a, b) => a.cycleDateTime.compareTo(b.cycleDateTime));
+    emit(ReadyState(item: item));
+  }
+
+  void _onLoadedAnimation(
+      LoadAnimationEvent event, Emitter<BlocState> emit) async {
+    final item = await repo.load();
     item.sort((a, b) => a.cycleDateTime.compareTo(b.cycleDateTime));
     emit(ReadyState(item: item));
   }
@@ -38,7 +46,7 @@ class LastTimeBloc extends Bloc<BlocEvent, BlocState> {
 
   void _onAdd(AddEventAction event, Emitter<BlocState> emit) async {
     if (state is ReadyState) {
-      await repo.add(name: event.name, cycleDateTime: event.dateTime);
+      await repo.add(name: event.name, cycleDateTime: event.cycleDateTime);
     }
   }
 
@@ -63,7 +71,7 @@ class LastTimeBloc extends Bloc<BlocEvent, BlocState> {
         action: event.action,
       );
       emit(LoadingState());
-      add(LoadEvent());
+      add(LoadAnimationEvent());
     }
   }
 }

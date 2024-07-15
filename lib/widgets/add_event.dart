@@ -88,7 +88,7 @@ class AddEvent extends StatelessWidget {
                                           .read<LastTimeBloc>()
                                           .add(AddEventAction(
                                             name: title,
-                                            dateTime: dateTime,
+                                            cycleDateTime: dateTime,
                                           ));
                                       context
                                           .read<LastTimeBloc>()

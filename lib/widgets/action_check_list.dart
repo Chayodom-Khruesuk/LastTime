@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_lasttime/bloc/bloc.dart';
 import 'package:flutter_lasttime/bloc/bloc_event.dart';
 import 'package:flutter_lasttime/model/item_action.dart';
+import 'package:lottie/lottie.dart';
 
 IconButton actionCheckList(
     BuildContext context, List<ItemAction> item, int index) {
@@ -17,16 +18,10 @@ IconButton actionCheckList(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text(
-                'ยืนยัน',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              content: const Text(
-                'คุณต้องการยกเลิกงานนี้หรือไม่',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
+              title: const Text('ยืนยัน',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              content: const Text('คุณต้องการยกเลิกงานนี้หรือไม่',
+                  style: TextStyle(fontSize: 18)),
               actions: [
                 TextButton(
                   child: const Text('ยกเลิก',
@@ -36,13 +31,12 @@ IconButton actionCheckList(
                   },
                 ),
                 TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.green,
-                  ),
+                  style: TextButton.styleFrom(backgroundColor: Colors.green),
                   onPressed: () {
                     context.read<LastTimeBloc>().add(
                         UpdateTime(id: item[index].id, action: DateTime.now()));
-                    Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .pop(true); // Pass true to indicate action taken
                   },
                   child: const Text('ตกลง',
                       style: TextStyle(
@@ -50,7 +44,31 @@ IconButton actionCheckList(
                 ),
               ],
             );
-          });
+          }).then((result) {
+        if (result == true) {
+          showLottieAnimation(context);
+          Navigator.canPop(context);
+        }
+      });
+    },
+  );
+}
+
+void showLottieAnimation(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return PopScope(
+        canPop: false,
+        child: Center(
+          child: Lottie.asset('assets/animations/success_animations.json',
+              onLoaded: (composition) {
+            Future.delayed(composition.duration, () {
+              Navigator.of(context).pop();
+            });
+          }),
+        ),
+      );
     },
   );
 }
