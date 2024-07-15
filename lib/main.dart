@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_lasttime/bloc/bloc.dart';
 import 'package:flutter_lasttime/bloc/bloc_event.dart';
 import 'package:flutter_lasttime/repo/mock_repo.dart';
-import 'package:flutter_lasttime/widgets/screens/home_page.dart';
+import 'package:flutter_lasttime/widgets/nav_bar.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +25,7 @@ class MainApp extends StatelessWidget {
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: Center(child: HomePage()),
+          body: Center(child: NavBar()),
         ),
       ),
     );
