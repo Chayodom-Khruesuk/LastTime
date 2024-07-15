@@ -47,7 +47,6 @@ IconButton actionCheckList(
           }).then((result) {
         if (result == true) {
           showLottieAnimation(context);
-          Navigator.canPop(context);
         }
       });
     },
